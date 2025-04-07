@@ -1,5 +1,6 @@
 using System.Text.Json;
 using CurrencyConverter.Models;
+using DotNetEnv;
 
 namespace CurrencyConverter.Services;
 
@@ -7,7 +8,9 @@ public class CurrencyService
 {
     public async Task<decimal> ConvertCurrency(string from, string to, decimal amount)
     {
-        string apiUrl = $"https://v6.exchangerate-api.com/v6/371e683be59f63c1bccc8c79/latest/{from}";
+        Env.Load();
+        string token = Env.GetString("TOKEN");
+        string apiUrl = $"https://v6.exchangerate-api.com/v6/{token}/latest/{from}";
         using HttpClient client = new HttpClient();
 
         try
